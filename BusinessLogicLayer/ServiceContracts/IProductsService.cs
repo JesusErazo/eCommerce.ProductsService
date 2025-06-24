@@ -9,8 +9,8 @@ public interface IProductsService
   /// <summary>
   /// Retrieves list of products from the products repository.
   /// </summary>
-  /// <returns>Returns a list of ProductResponse objects</returns>
-  Task<List<ProductResponse>> GetProducts();
+  /// <returns>Returns a list of ProductResponse objects or null if there is none</returns>
+  Task<List<ProductResponse?>> GetProducts();
 
   /// <summary>
   /// Retrieves list of products matching with given condition.

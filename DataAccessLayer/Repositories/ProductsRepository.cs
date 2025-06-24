@@ -41,7 +41,7 @@ public class ProductsRepository : IProductsRepository
     return await _dbContext.Products.FirstOrDefaultAsync(conditionExpression);
   }
 
-  public async Task<IEnumerable<Product>> GetProducts()
+  public async Task<IEnumerable<Product?>> GetProducts()
   {
     return await _dbContext.Products.ToListAsync();
   }

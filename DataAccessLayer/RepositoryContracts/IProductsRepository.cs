@@ -11,8 +11,8 @@ public interface IProductsRepository
   /// <summary>
   /// Retrieves all products asynchronously.
   /// </summary>
-  /// <returns>Returns all products from the table</returns>
-  Task<IEnumerable<Product>> GetProducts();
+  /// <returns>Returns all products from the table or null if there is none</returns>
+  Task<IEnumerable<Product?>> GetProducts();
 
   /// <summary>
   /// Retrieves all products based on the specified condition asynchronously.
