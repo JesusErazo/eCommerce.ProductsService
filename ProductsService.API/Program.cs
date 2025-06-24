@@ -10,9 +10,6 @@ builder.Services.AddBusinessLogicLayer();
 
 builder.Services.AddControllers();
 
-//TO DO
-//builder.Services.AddAutoMapper();
-
 var app = builder.Build();
 
 //Global exception handler

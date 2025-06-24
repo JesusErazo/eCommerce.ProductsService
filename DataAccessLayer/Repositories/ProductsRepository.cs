@@ -1,4 +1,4 @@
-﻿using DataAccessLayer.Entities;
+﻿using eCommerce.DataAccessLayer.Entities;
 using eCommerce.DataAccessLayer.Context;
 using eCommerce.DataAccessLayer.RepositoryContracts;
 using Microsoft.EntityFrameworkCore;
