@@ -1,6 +1,7 @@
 using eCommerce.ProductsService.API.Middlewares;
 using eCommerce.ProductsService.BusinessLogicLayer;
 using eCommerce.ProductsService.DataAccessLayer;
+using eCommerce.ProductsService.API.APIEndpoints;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,5 +22,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapProductAPIEndpoints();
 
 app.Run();
