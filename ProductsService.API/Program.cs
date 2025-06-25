@@ -17,13 +17,36 @@ builder.Services.ConfigureHttpJsonOptions(options =>
   options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
 });
 
+//Swagger
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+//CORS
+builder.Services.AddCors(options =>
+{
+  options.AddDefaultPolicy(builder =>
+  {
+    builder.WithOrigins("http://localhost:4200")
+    .AllowAnyMethod()
+    .AllowAnyHeader();
+  });
+});
+
 var app = builder.Build();
 
 //Global exception handler
 app.UseExceptionHandlingMiddleware();
 app.UseRouting();
 
+//CORS
+app.UseCors();
+
+//Swagger
+app.UseSwagger();
+app.UseSwaggerUI();
+
 //Auth
+app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
