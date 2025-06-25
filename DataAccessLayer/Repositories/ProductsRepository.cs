@@ -24,14 +24,14 @@ public class ProductsRepository : IProductsRepository
 
   public async Task<bool> DeleteProduct(Guid ProductID)
   {
-    bool productExist = await _dbContext.Products.AnyAsync(x => x.ProductID == ProductID);
+    Product? existingProduct = await _dbContext.Products.FirstOrDefaultAsync(x => x.ProductID == ProductID);
 
-    if (!productExist)
+    if (existingProduct is null)
     {
       return false;
     }
 
-    _dbContext.Remove(new Product { ProductID = ProductID});
+    _dbContext.Remove(existingProduct);
     int affectedRowsCount = await _dbContext.SaveChangesAsync();
     return affectedRowsCount > 0;
   }

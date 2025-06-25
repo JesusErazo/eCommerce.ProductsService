@@ -1,4 +1,5 @@
 ﻿using eCommerce.BusinessLogicLayer.Mappers;
+using eCommerce.BusinessLogicLayer.ServiceContracts;
 using eCommerce.BusinessLogicLayer.Validators;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,6 +13,7 @@ public static class DependencyInjection
     //TO DO: Add Business Logic Layer services to the IoC container.
     services.AddValidatorsFromAssemblyContaining<ProductAddRequestValidator>();
     services.AddAutoMapper(typeof(ProductAddRequestToProductMappingProfile).Assembly);
+    services.AddScoped<IProductsService, eCommerce.BusinessLogicLayer.Services.ProductsService>();
     return services;
   }
 }

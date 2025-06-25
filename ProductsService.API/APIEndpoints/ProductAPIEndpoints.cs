@@ -1,9 +1,8 @@
 ﻿using eCommerce.BusinessLogicLayer.DTO;
-using eCommerce.BusinessLogicLayer.Extensions;
 using eCommerce.BusinessLogicLayer.ServiceContracts;
-using eCommerce.BusinessLogicLayer.Validators;
 using FluentValidation;
 using FluentValidation.Results;
+using Microsoft.EntityFrameworkCore;
 
 namespace eCommerce.ProductsService.API.APIEndpoints;
 
@@ -32,14 +31,15 @@ public static class ProductAPIEndpoints
     {
       List<ProductResponse?> productsByName = await productsService
       .GetProductsByCondition(x => 
-      x.ProductName != null && 
-      x.ProductName.Contains(SearchString, StringComparison.OrdinalIgnoreCase)
+      x.ProductName != null &&
+      EF.Functions.Like(x.ProductName,$"%{SearchString}%")
       );
 
       List<ProductResponse?> productsByCategory = await productsService
       .GetProductsByCondition(x =>
       x.Category != null &&
-      x.Category.Contains(SearchString, StringComparison.OrdinalIgnoreCase));
+      EF.Functions.Like(x.Category, $"%{SearchString}%")
+      );
 
       var products = productsByName.Union(productsByCategory);
 
@@ -104,7 +104,7 @@ public static class ProductAPIEndpoints
     });
 
     //DELETE /api/products/{producID:guid}
-    app.MapDelete("/api/products/{producID:guid}", async (
+    app.MapDelete("/api/products/{productID:guid}", async (
       IProductsService productsService,
       Guid productID
       ) =>
