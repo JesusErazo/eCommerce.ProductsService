@@ -1,6 +1,8 @@
 using eCommerce.ProductsService.API.Middlewares;
 using eCommerce.ProductsService.BusinessLogicLayer;
 using eCommerce.ProductsService.DataAccessLayer;
+using eCommerce.ProductsService.API.APIEndpoints;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,8 +12,10 @@ builder.Services.AddBusinessLogicLayer();
 
 builder.Services.AddControllers();
 
-//TO DO
-//builder.Services.AddAutoMapper();
+builder.Services.ConfigureHttpJsonOptions(options =>
+{
+  options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
+});
 
 var app = builder.Build();
 
@@ -24,5 +28,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapProductAPIEndpoints();
 
 app.Run();
