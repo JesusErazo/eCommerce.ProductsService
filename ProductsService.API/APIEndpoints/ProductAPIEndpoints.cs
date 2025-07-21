@@ -2,6 +2,7 @@
 using eCommerce.BusinessLogicLayer.ServiceContracts;
 using FluentValidation;
 using FluentValidation.Results;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace eCommerce.ProductsService.API.APIEndpoints;
@@ -44,6 +45,23 @@ public static class ProductAPIEndpoints
       );
 
       var products = productsByName.Union(productsByCategory);
+
+      return Results.Ok(products);
+    });
+
+    //GET /api/products/search
+    app.MapGet("/api/products/search", async (
+      [FromServices] IProductsService productsService, 
+      [FromQuery] Guid[] ids) =>
+    {
+      if (ids.Length < 1) {
+        return Results.BadRequest("At least one 'ids' query param is required.");
+      }
+
+      List<ProductResponse?> products = await productsService
+      .GetProductsByCondition(x =>
+        ids.Contains(x.ProductID)
+      );
 
       return Results.Ok(products);
     });
