@@ -27,7 +27,7 @@ RUN dotnet publish "./ProductsService.API.csproj" -c $BUILD_CONFIGURATION -o /ap
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENV MYSQL_HOST=localhost
+ENV MYSQL_HOST=products-mysql-container
 ENV MYSQL_PASSWORD=development
 ENV MYSQL_DATABASE=ecommerceproductsdatabase
 ENV MYSQL_PORT=3306

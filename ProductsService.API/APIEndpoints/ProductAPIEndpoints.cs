@@ -14,6 +14,11 @@ public static class ProductAPIEndpoints
     //GET /api/products
     app.MapGet("/api/products", async(IProductsService productsService) =>
     {
+      //Intentional error to development tests -> Remove it for production environment.
+      /*
+      await Task.Delay(1000);
+      throw new NotImplementedException();
+      */
       List<ProductResponse?> products = await productsService.GetProducts();
       return Results.Ok(products);
     });
@@ -21,6 +26,11 @@ public static class ProductAPIEndpoints
     //GET /api/products/search/product-id/{ProductID}
     app.MapGet("/api/products/search/product-id/{ProductID:guid}", async (IProductsService productsService, Guid ProductID) =>
     {
+      //Intentional error to development tests -> Remove it for production environment.
+      /*
+      await Task.Delay(1000);
+      throw new NotImplementedException();
+      */
       ProductResponse? product = await productsService
       .GetProductByCondition(x => x.ProductID == ProductID);
 
@@ -32,6 +42,11 @@ public static class ProductAPIEndpoints
     //GET /api/products/search/{SearchString}
     app.MapGet("/api/products/search/{SearchString}", async (IProductsService productsService, string SearchString) =>
     {
+      //Intentional error to development tests -> Remove it for production environment.
+      /*
+      await Task.Delay(1000);
+      throw new NotImplementedException();
+      */
       List<ProductResponse?> productsByName = await productsService
       .GetProductsByCondition(x => 
       x.ProductName != null &&
@@ -54,6 +69,11 @@ public static class ProductAPIEndpoints
       [FromServices] IProductsService productsService, 
       [FromQuery] Guid[] ids) =>
     {
+      //Intentional error to development tests -> Remove it for production environment.
+      /*
+      await Task.Delay(1000);
+      throw new NotImplementedException();
+      */
       if (ids.Length < 1) {
         return Results.BadRequest("At least one 'ids' query param is required.");
       }
@@ -73,6 +93,11 @@ public static class ProductAPIEndpoints
       ProductAddRequest productAddRequest
       ) =>
     {
+      //Intentional error to development tests -> Remove it for production environment.
+      /*
+      await Task.Delay(1000);
+      throw new NotImplementedException();
+      */
       ValidationResult result = await productAddRequestValidator.ValidateAsync(productAddRequest);
 
       if (!result.IsValid) {
@@ -101,6 +126,11 @@ public static class ProductAPIEndpoints
       ProductUpdateRequest productUpdateRequest
       ) =>
     {
+      //Intentional error to development tests -> Remove it for production environment.
+      /*
+      await Task.Delay(1000);
+      throw new NotImplementedException();
+      */
 
       ValidationResult result = await productUpdateRequestValidator.ValidateAsync(productUpdateRequest);
 
@@ -129,6 +159,11 @@ public static class ProductAPIEndpoints
       Guid productID
       ) =>
     {
+      //Intentional error to development tests -> Remove it for production environment.
+      /*
+      await Task.Delay(1000);
+      throw new NotImplementedException();
+      */
 
       bool isDeleted = await productsService.DeleteProduct(productID);
 
