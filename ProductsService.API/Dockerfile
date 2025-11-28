@@ -32,4 +32,8 @@ ENV MYSQL_PASSWORD=development
 ENV MYSQL_DATABASE=ecommerceproductsdatabase
 ENV MYSQL_PORT=3306
 ENV MYSQL_USER=root
+ENV RABBITMQ_HOST=rabbitmq-server
+ENV RABBITMQ_PORT=5672
+ENV RABBITMQ_USER=guest
+ENV RABBITMQ_PASSWORD=guest
 ENTRYPOINT ["dotnet", "ProductsService.API.dll"]
