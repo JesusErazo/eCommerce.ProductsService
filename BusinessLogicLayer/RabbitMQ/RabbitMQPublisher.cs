@@ -80,6 +80,24 @@ public class RabbitMQPublisher : IRabbitMQPublisher, IAsyncDisposable
       IConnection connection = await GetConnectionAsync();
       using var channel = await connection.CreateChannelAsync();
 
+      //TO DO: Create exchanges, queues and bindings since rabbitmq.conf file
+      await channel.ExchangeDeclareAsync(
+        exchange: _exchangeProductsName,
+        type: ExchangeType.Direct,
+        durable: true);
+
+      await channel.QueueDeclareAsync(
+        queue: routingKey,
+        durable: true,
+        exclusive: false,
+        autoDelete: false,
+        arguments: null);
+
+      await channel.QueueBindAsync(
+        queue: routingKey,
+        exchange: _exchangeProductsName,
+        routingKey: routingKey);
+
       string json = JsonSerializer.Serialize(message);
       byte[] body = Encoding.UTF8.GetBytes(json);
 
