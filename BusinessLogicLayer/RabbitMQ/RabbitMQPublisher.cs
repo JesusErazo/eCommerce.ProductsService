@@ -8,7 +8,8 @@ namespace eCommerce.BusinessLogicLayer.RabbitMQ;
 
 public class RabbitMQPublisher : IRabbitMQPublisher, IAsyncDisposable
 {
-  private const string EXCHANGE_NAME = "products.direct.exchange";
+  private readonly string _exchangeProductsName = Environment.GetEnvironmentVariable("RABBITMQ_PRODUCTS_EXCHANGE")
+    ?? throw new NullReferenceException("RABBITMQ_PRODUCTS_EXCHANGE is missing.");
 
   private readonly IConfiguration _configuration;
   private readonly ILogger<RabbitMQPublisher> _logger;
@@ -38,8 +39,8 @@ public class RabbitMQPublisher : IRabbitMQPublisher, IAsyncDisposable
         return _connection;
       }
 
-      string hostname = _configuration["RABBITMQ_HOSTNAME"] 
-        ?? throw new ArgumentNullException("RABBITMQ_HOSTNAME is missing");
+      string hostname = _configuration["RABBITMQ_HOST"] 
+        ?? throw new ArgumentNullException("RABBITMQ_HOST is missing");
 
       string port = _configuration["RABBITMQ_PORT"]
         ?? throw new ArgumentNullException("RABBITMQ_PORT is missing");
@@ -88,7 +89,7 @@ public class RabbitMQPublisher : IRabbitMQPublisher, IAsyncDisposable
       };
 
       await channel.BasicPublishAsync(
-        exchange: EXCHANGE_NAME,
+        exchange: _exchangeProductsName,
         routingKey: routingKey,
         mandatory: true,
         basicProperties: properties,
